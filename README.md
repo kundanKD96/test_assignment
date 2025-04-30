@@ -1,5 +1,11 @@
 # test_assignment
 
+First Step :- create database and run below queries and configure it in backend/models/index.php
+
+Second Step :- Running Seed command:- node scripts/seed.js
+
+Third Step:- To run the project:- Open frontend/sample_design.html file with live server and start node server i.e backend/app.js
+
 CREATE TABLE `assignments` (
   `assignment_id` int NOT NULL AUTO_INCREMENT,
   `class_id` int NOT NULL,
