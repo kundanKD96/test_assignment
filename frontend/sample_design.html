@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignments Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./sample_design.js"></script>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg p-4 hidden md:block">
+            <h2 class="text-xl font-bold text-gray-800 mb-6">Menu</h2>
+            <nav class="space-y-2">
+                <a href="#" class="block px-4 py-2 rounded text-gray-700 hover:bg-gray-100">Dashboard</a>
+                <a href="#" class="block px-4 py-2 rounded text-indigo-600 bg-indigo-50 font-medium">Assignments</a>
+                <a href="#" class="block px-4 py-2 rounded text-gray-700 hover:bg-gray-100">Grades</a>
+                <a href="#" class="block px-4 py-2 rounded text-gray-700 hover:bg-gray-100">Students</a>
+                <a href="#" class="block px-4 py-2 rounded text-gray-700 hover:bg-gray-100">Settings</a>
+            </nav>
+        </aside>
+
+        <!-- Main content -->
+        <main class="flex-1">
+            <div class="max-w-7xl mx-auto p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-semibold">Assignments</h1>
+                    <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+                        id="create-assignment-btn">
+                        Create Assignment
+                    </button>
+                </div>
+
+                <!-- Filter Tabs -->
+                <div class="mb-4 border-b border-gray-200">
+                    <nav class="flex space-x-4" aria-label="Tabs">
+                        <a href="#"
+                            class="tab-active px-3 py-2 font-medium text-sm text-indigo-600 border-b-2 border-indigo-600 tab"
+                            data-class="all">Current Assignments</a>
+                        <a href="#" class="px-3 py-2 font-medium text-sm text-gray-500 hover:text-gray-700 tab"
+                            data-class="upcoming">Upcoming Assignments</a>
+                        <a href="#" class="px-3 py-2 font-medium text-sm text-gray-500 hover:text-gray-700 tab"
+                            data-class="past">Past Assignments</a>
+                    </nav>
+                </div>
+
+                <!-- Filter section -->
+                <div class="flex flex-wrap gap-4 mb-6">
+                    <select class="px-3 py-2 rounded border text-sm bg-white sort-options" id="classFilter">
+                        <option value="all">All Classes</option>
+                        <option value="science101">Science 101</option>
+                        <option value="biology202">Biology 202</option>
+                        <option value="chemistry101">Chemistry 101</option>
+                    </select>
+                    <select class="px-3 py-2 rounded border text-sm bg-white sort-options" id="sortFilter">
+                        <option value="dueDate">Sort: Due Date</option>
+                        <option value="createdAt">Sort: Recently Created</option>
+                        <option value="completion">Sort: Completion Rate</option>
+                        <option value="alphabetical">Sort: Alphabetical</option>
+                    </select>
+                    <div class="flex space-x-2">
+                        <button class="px-3 py-2 text-sm rounded bg-indigo-600 text-gray-500">List View</button>
+                        <button class="px-3 py-2 text-sm rounded text-gray-500">Grid View</button>
+                    </div>
+                </div>
+
+                <!-- Assignment Cards -->
+                <div id="assignment-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+                    <!-- Assignment cards will be dynamically generated here -->
+                </div>
+
+                <!-- Analytics Section -->
+                <div class="bg-white rounded-lg shadow-sm mb-10">
+                    <div class="p-6">
+                        <!-- ... -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-gray-50 p-4 rounded">
+                                <p class="text-sm text-gray-500">Total Assignments</p>
+                                <p id="total-assignments" class="text-xl font-semibold">12</p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded">
+                                <p class="text-sm text-gray-500">Avg. Completion Rate</p>
+                                <p id="avg-completion-rate" class="text-xl font-semibold">78%</p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded">
+                                <p class="text-sm text-gray-500">Avg. Grade</p>
+                                <p id="avg-grade" class="text-xl font-semibold">B+ (87%)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Students Needing Attention Section -->
+                <div class="bg-white rounded-lg shadow-sm">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-lg font-semibold text-gray-900">Students Needing Attention</h2>
+                            <a href="#" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">View All</a>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead>
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                            Student</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                            Issue</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                            Assignments</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                            Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="attention-students-body" class="bg-white divide-y divide-gray-200"> </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Create Assignment Modal -->
+                <div id="create-assignment-modal"
+                    class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+                    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                        <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                            <h3 class="text-lg font-semibold text-gray-900">Create New Assignment</h3>
+                            <button id="close-modal-btn" class="text-gray-400 hover:text-gray-500">
+                                <div class="w-6 h-6 flex items-center justify-center">
+                                    <i class="ri-close-line"></i>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="px-6 py-4">
+                            <form id="assignment-form">
+                                <div class="space-y-4">
+                                    <div>
+                                        <label for="assignment-title"
+                                            class="block text-sm font-medium text-gray-700 mb-1">Assignment
+                                            Title</label>
+                                        <input type="text" id="assignment-title"
+                                            class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-sm"
+                                            placeholder="Enter assignment title">
+                                    </div>
+                                    <div>
+                                        <label for="assignment-class"
+                                            class="block text-sm font-medium text-gray-700 mb-1">Class</label>
+                                        <div class="relative">
+                                            <select id="assignment-class"
+                                                class="block w-full px-3 py-2 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-sm appearance-none bg-white">
+                                                <option value="science101">Science 101</option>
+                                                <option value="biology202">Biology 202</option>
+                                                <option value="chemistry101">Chemistry 101</option>
+                                            </select>
+                                            <div
+                                                class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                                <div class="w-4 h-4 flex items-center justify-center text-gray-400">
+                                                    <i class="ri-arrow-down-s-line"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label for="assignment-due-date"
+                                                class="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
+                                            <input type="date" id="assignment-due-date"
+                                                class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-sm">
+                                        </div>
+                                        <div>
+                                            <label for="assignment-due-time"
+                                                class="block text-sm font-medium text-gray-700 mb-1">Due Time</label>
+                                            <input type="time" id="assignment-due-time"
+                                                class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-sm">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="assignment-points"
+                                            class="block text-sm font-medium text-gray-700 mb-1">Total
+                                            Points</label>
+                                        <input type="number" id="assignment-points"
+                                            class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-sm"
+                                            placeholder="Enter total points" min="0">
+                                    </div>
+                                    <div>
+                                        <label for="assignment-description"
+                                            class="block text-sm font-medium text-gray-700 mb-1">Instructions</label>
+                                        <textarea id="assignment-description" rows="4"
+                                            class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-sm"
+                                            placeholder="Enter assignment instructions and requirements"></textarea>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Attachment</label>
+                                        <div class="flex items-center justify-center w-full">
+                                            <label for="file-upload"
+                                                class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                                    <div
+                                                        class="w-10 h-10 mb-3 flex items-center justify-center text-gray-400">
+                                                        <i class="ri-upload-cloud-line ri-2x"></i>
+                                                    </div>
+                                                    <p class="mb-2 text-sm text-gray-500">Click to upload or drag and
+                                                        drop</p>
+                                                    <p class="text-xs text-gray-500">PDF, DOCX, or images (max. 10MB)
+                                                    </p>
+                                                </div>
+                                                <input id="file-upload" type="file" class="hidden">
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="mr-2">
+                                            <span class="text-sm text-gray-700">Allow late submissions</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="mr-2">
+                                            <span class="text-sm text-gray-700">Enable automatic grading</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="px-6 py-4 border-t border-gray-200 flex justify-end space-x-3">
+                            <button id="cancel-btn"
+                                class="px-4 py-2 border border-gray-300 rounded-button text-sm font-medium text-gray-700 hover:bg-gray-50 whitespace-nowrap">Cancel</button>
+                            <button id="save-assignment-btn"
+                                class="px-4 py-2 bg-primary text-white rounded-button text-sm font-medium bg-indigo-700 whitespace-nowrap">Create
+                                Assignment</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Create Assignment Button -->
+                <div class="md:hidden fixed right-4 bottom-20 z-20">
+                    <button id="mobile-create-btn"
+                        class="w-14 h-14 rounded-full bg-primary text-white shadow-lg flex items-center justify-center">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <i class="ri-add-line ri-lg"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+</body>
+
+</html>
