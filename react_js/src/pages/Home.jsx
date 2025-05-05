@@ -19,6 +19,7 @@ const AssignmentsDashboard = () => {
         classFilter.addEventListener('change', handleFilterChange);
         sortFilter.addEventListener('change', handleFilterChange);
     
+        handleFilterChange();
         // Cleanup event listeners on component unmount
         return () => {
             classFilter.removeEventListener('change', handleFilterChange);
