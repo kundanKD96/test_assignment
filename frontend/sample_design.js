@@ -105,25 +105,6 @@ function renderAssignments(filter = {}) {
                 const assignmentCardsContainer = document.getElementById('assignment-cards-container');
                 assignmentCardsContainer.innerHTML = ''
                 dataItems.forEach((assignment) => {
-
-                    const inputDate = new Date(assignment.dueDate);
-
-                    // Subtract 1 minute to get to April 30, 11:59 PM (local time)
-                    inputDate.setMinutes(inputDate.getMinutes() - 1);
-
-                    // Format the date
-                    const options = {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: 'numeric',
-                        minute: '2-digit',
-                        hour12: true,
-                    };
-
-                    const formatted = inputDate.toLocaleString('en-US', options);
-                    console.log(formatted); // Example: "April 30, 2025 at 11:59 PM"
-                    assignment.dueDate = formatted
                     const cardHTML = generateAssignmentCard(assignment);
                     assignmentCardsContainer.insertAdjacentHTML('beforeend', cardHTML);
                 });

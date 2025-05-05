@@ -21,7 +21,7 @@ exports.getDashboard = async (req, res) => {
             c.class_name AS class,
             a.title AS title,
             a.status AS status,
-            a.due_date AS dueDate,
+            DATE_FORMAT(CONVERT_TZ(a.due_date, '+00:00', @@session.time_zone), '%d-%m-%Y %H:%i:%s') AS dueDate,
             COUNT(DISTINCT sa.student_id) AS studentsAssigned,
             CONCAT(COUNT(DISTINCT CASE WHEN sa.status = 'submitted' THEN sa.student_id END), '/', COUNT(DISTINCT sa.student_id)) AS submissionStatus,
             ROUND((COUNT(DISTINCT CASE WHEN sa.status = 'submitted' THEN sa.student_id END) / COUNT(DISTINCT sa.student_id)) * 100) AS submissionProgress,
